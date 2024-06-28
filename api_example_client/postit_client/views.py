@@ -28,3 +28,10 @@ def post_create(request):
 
     if request.method == "GET":
         return render(request, "post_create.html")
+
+
+def like_create(request, post_id):
+    headers = {'Authorization': token}
+    r = requests.post(f"http://127.0.0.1:6500/posts/{post_id}/like", headers=headers)
+    print(r.json())
+    return redirect('posts')
