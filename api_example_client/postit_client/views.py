@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth import password_validation
 from .models import Profile
 
-token = "Token 1961a9e2cec10da70006b7ac51086a788ebb8882"
+# token = "Token 1961a9e2cec10da70006b7ac51086a788ebb8882"
 # Create your views here.
 def posts(request):
     r = requests.get("http://127.0.0.1:6500/posts/")
@@ -20,26 +20,26 @@ def post(request, post_id):
     post_dict = r.json()
     return render(request, template_name="post.html", context={"post": post_dict})
 
-# @login_required
+@login_required
 def post_create(request):
     if request.method == "POST":
         data = {
             "title": request.POST['title'],
             "body": request.POST['body'],
         }
-        headers = {'Authorization': token}
+        headers = {'Authorization': f"Token {request.user.profile.token}"}
         r = requests.post("http://127.0.0.1:6500/posts/", data=data, headers=headers)
-        print(r.json())
+        # print(r.json())
         return redirect('posts')
 
     if request.method == "GET":
         return render(request, "post_create.html")
 
-
+@login_required
 def like_create(request, post_id):
-    headers = {'Authorization': token}
+    headers = {'Authorization': f"Token {request.user.profile.token}"}
     r = requests.post(f"http://127.0.0.1:6500/posts/{post_id}/like", headers=headers)
-    print(r.json())
+    # print(r.json())
     return redirect('posts')
 
 
@@ -80,7 +80,7 @@ def register(request):
                     r1 = requests.post("http://127.0.0.1:6500/signup/", data=data)
                     r2 = requests.post("http://127.0.0.1:6500/api-token-auth/", data=data)
                     token_dict = r2.json()
-                    user = User.objects.filter(username=username)[0]
+                    # user = User.objects.filter(username=username)[0]
                     user.profile.token = token_dict['token']
                     user.save()
 
