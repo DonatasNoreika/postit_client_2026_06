@@ -6,9 +6,7 @@ from django.contrib.auth.forms import User
 from django.views.decorators.csrf import csrf_protect
 from django.contrib import messages
 from django.contrib.auth import password_validation
-from .models import Profile
 
-# token = "Token 1961a9e2cec10da70006b7ac51086a788ebb8882"
 # Create your views here.
 def posts(request):
     r = requests.get("http://127.0.0.1:6500/posts/")
