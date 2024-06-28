@@ -6,8 +6,9 @@
 
 <h1>{{ post.title }}</h1>
 <p>{{ post.body }}</p>
+<small>{{ post.user }}, {{ post.created }}</small>
 <hr>
-<h2>Comments:</h2>
+<h2>Comments ({{ post.comments_count }}):</h2>
 {% for comment in post.comments %}
 <p>{{ comment }}</p>
 {% endfor %}
